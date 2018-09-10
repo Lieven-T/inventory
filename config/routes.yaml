@@ -1,3 +1,15 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\MainController::index
+
+delete:
+    path: /delete
+    controller: App\Controller\MainController::delete
+
+csv:
+    path: /csv
+    controller: App\Controller\MainController::csv
+
+register:
+    path: /register
+    controller: App\Controller\MainController::register
