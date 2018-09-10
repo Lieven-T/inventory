@@ -1,0 +1,4 @@
+"Hostname";"Model";"MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte"
+{% for computer in computers %}
+"{{ computer.hostName }}";"{{ computer.model }}";"{{ computer.macAddress }}";"{{ computer.serialNumber }}";"{{ computer.processor }}";"{{ computer.ramSize }}";"{{ computer.mediaType }}";"{{ computer.diskSize }}"
+{% endfor %}

@@ -63,24 +63,24 @@ class Computer
 
     public function getSerialNumber(): ?string
     {
-        return $this->SerialNumber;
+        return $this->serialNumber;
     }
 
-    public function setSerialNumber(?string $SerialNumber): self
+    public function setSerialNumber(?string $serialNumber): self
     {
-        $this->SerialNumber = $SerialNumber;
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }
 
     public function getMacAddress(): ?string
     {
-        return $this->MacAddress;
+        return $this->macAddress;
     }
 
-    public function setMacAddress(?string $MacAddress): self
+    public function setMacAddress(?string $macAddress): self
     {
-        $this->MacAddress = $MacAddress;
+        $this->macAddress = $macAddress;
 
         return $this;
     }

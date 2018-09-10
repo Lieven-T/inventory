@@ -1,1 +1,31 @@
-{# empty Twig template #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Hostname</th>
+                <th>Model</th>
+                <th>MAC Adres</th>
+                <th>Serienummer</th>
+                <th>Processor</th>
+                <th>RAM</th>
+                <th>SSD/HDD</th>
+                <th>Opslagruimte</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for computer in computers %}
+                <tr>
+                    <td>{{ computer.hostName }}</td>
+                    <td>{{ computer.model }}</td>
+                    <td>{{ computer.macAddress }}</td>
+                    <td>{{ computer.serialNumber }}</td>
+                    <td>{{ computer.processor }}</td>
+                    <td>{{ computer.ramSize }}</td>
+                    <td>{{ computer.mediaType }}</td>
+                    <td>{{ computer.diskSize }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
