@@ -19,3 +19,18 @@ th,td {
     border: 1px solid black;
     padding: 5px;
 }
+
+.icon-bin {
+    color: black;
+}
+
+.button {
+    background: linear-gradient(#eee,#ccc);
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 5px;
+    color: #555;
+    text-decoration: none;
+    margin: 10px 0;   
+}

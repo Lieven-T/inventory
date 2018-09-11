@@ -6,6 +6,7 @@ use App\Entity\Computer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use \DateTime;
 
 class MainController extends AbstractController
 {
@@ -14,7 +15,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
@@ -25,7 +26,8 @@ class MainController extends AbstractController
             $fileContent .= $computer->getProcessor() . '";"';
             $fileContent .= $computer->getRamSize() . '";"';
             $fileContent .= $computer->getMediaType() . '";"';
-            $fileContent .= $computer->getDiskSize() . '"';
+            $fileContent .= $computer->getDiskSize() . '";"';
+            $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '"';
             $fileContent .= "\n";
         }
 
@@ -57,6 +59,7 @@ class MainController extends AbstractController
         $diskSize = $request->request->get('diskSize');
         $ramSize = $request->request->get('ramSize');
         $processor = $request->request->get('processor');
+        $queryDate = $request->request->get('queryDate');
         
         $repository = $this->getDoctrine()->getRepository(Computer::class);
         $entityManager = $this->getDoctrine()->getManager();
@@ -86,7 +89,7 @@ class MainController extends AbstractController
         $currentComputer->setMediaType($mediaType);
         $currentComputer->setDiskSize((int)$diskSize);
         $currentComputer->setModel($model);
-        // $currentComputer.setQueryDate($queryDate);
+        $currentComputer->setQueryDate(DateTime::createFromFormat('d/m/Y H:i:s', $queryDate));
         $currentComputer->setProcessor($processor);
 
         $entityManager->flush();        
@@ -95,15 +98,20 @@ class MainController extends AbstractController
         $response->setContent('<html><body><h1>OK!</h1></body></html>');
         $response->setStatusCode(Response::HTTP_OK);
         $response->headers->set('Content-Type', 'text/html');
-        $response->send();
+        return $response->send();
     }
     
-    public function delete($id)
+    public function delete()
     {
+        $request = Request::createFromGlobals();
+        $id = $request->request->get('id');
+
         $entityManager = $this->getDoctrine()->getManager();
         $computer = $entityManager->getRepository(Computer::class)->find($id);
         $entityManager->remove($computer);
         $entityManager->flush();
+        
+        return $this->redirectToRoute('index');
     }
     
     public function index()

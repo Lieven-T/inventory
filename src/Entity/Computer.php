@@ -56,6 +56,11 @@ class Computer
      */
     private $ramSize;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $queryDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +158,18 @@ class Computer
     public function setRamSize(int $ramSize): self
     {
         $this->ramSize = $ramSize;
+
+        return $this;
+    }
+
+    public function getQueryDate(): ?\DateTimeInterface
+    {
+        return $this->queryDate;
+    }
+
+    public function setQueryDate(\DateTimeInterface $queryDate): self
+    {
+        $this->queryDate = $queryDate;
 
         return $this;
     }

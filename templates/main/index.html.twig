@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <a href="{{ path('csv') }}" class="button">CSV Downloaden...</a>
+
     <table>
         <thead>
             <tr>
@@ -11,6 +13,8 @@
                 <th>RAM</th>
                 <th>SSD/HDD</th>
                 <th>Opslagruimte</th>
+                <th>Datum</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +28,14 @@
                     <td>{{ computer.ramSize }}</td>
                     <td>{{ computer.mediaType }}</td>
                     <td>{{ computer.diskSize }}</td>
+                    <td>{{ computer.queryDate|date('d/m/Y H:i:s') }}</td>
+                    <td><a onclick="if (confirm('Wilt u deze computer verwijderen?')) { document.getElementById('deleteId').value={{ computer.id }}; document.getElementById('deleteForm').submit() } else return false" href="#" class="icon-bin"></a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    <form style="display: none" action="{{ path('delete') }}" method="POST" id="deleteForm">
+        <input name="id" type="hidden" id="deleteId" value="">
+    </form>
 {% endblock %}
