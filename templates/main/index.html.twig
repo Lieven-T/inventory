@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-    <a href="{{ path('csv') }}" class="button">CSV Downloaden...</a>
 
-    <table>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.min.css">
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('csv') }}" class="button">CSV Downloaden...</a>
+    </div>
+    <table id="datatable">
         <thead>
             <tr>
                 <th>Hostname</th>
@@ -38,4 +45,16 @@
     <form style="display: none" action="{{ path('delete') }}" method="POST" id="deleteForm">
         <input name="id" type="hidden" id="deleteId" value="">
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable').dynatable();
+            var dynatable = $('#datatable').data('dynatable');
+            dynatable.paginationPerPage.set(100); // Show 20 records per page
+        })
+    </script>
 {% endblock %}

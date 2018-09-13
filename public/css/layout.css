@@ -10,13 +10,20 @@ html {
     padding: 20px;
 }
 
-table {
-    border: 1px solid black;
-    border-collapse: collapse;
+#dynatable-query-search-datatable, #dynatable-per-page-datatable {
+    border: 1px solid #aaa;
+    padding: 3px;
+    border-radius: 3px;
 }
 
-th,td {
-    border: 1px solid black;
+#datatable {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    width: 100%
+}
+
+#datatable th, #datatable td {
+    border: 1px solid #aaa;
     padding: 5px;
 }
 
@@ -33,4 +40,8 @@ th,td {
     color: #555;
     text-decoration: none;
     margin: 10px 0;   
+}
+
+.dynatable-sort-header {
+    text-decoration: none;
 }
