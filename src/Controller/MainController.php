@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Computer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use \DateTime;
 
@@ -46,6 +47,24 @@ class MainController extends AbstractController
 
         // Dispatch request
         return $response;
+    }
+    
+    public function query(Request $request)
+    {
+        $hostname = $request->query->get('hostName');
+        $macAddress = $request->query->get('macAddress');
+        $serialNumber = $request->query->get('serialNumber');
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        
+        $queryBuilder->select('c')->from(Computer::class, 'c');
+        if ($hostname) $queryBuilder->andWhere('c.hostname = :hostname')->setParameter('hostname', $hostname);
+        if ($macAddress) $queryBuilder->andWhere('c.macAddress = :macAddress')->setParameter('macAddress', $macAddress);
+        if ($serialNumber) $queryBuilder->andWhere('c.serialNumber = :serialNumber')->setParameter('serialNumber', $serialNumber);
+
+        $computers = $queryBuilder->getQuery()->getArrayResult();
+        return new JsonResponse(array('computers' => $computers));
     }
     
     public function register()

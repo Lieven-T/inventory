@@ -6,7 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ComputerRepository")
- */
+ * @ORM\Table(indexes={
+ *          @ORM\Index(name="hostname_idx", columns={"hostname"}), 
+ *          @ORM\Index(name="mac_address_idx", columns={"mac_address"})
+ *  })
+ *  */
 class Computer
 {
     /**

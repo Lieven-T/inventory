@@ -17,3 +17,8 @@ register:
     path: /register
     controller: App\Controller\MainController::register
     methods: [POST]
+
+query:
+    path: /query
+    controller: App\Controller\MainController::query
+    methods: [GET]
