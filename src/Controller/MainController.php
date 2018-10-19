@@ -59,9 +59,9 @@ class MainController extends AbstractController
         $queryBuilder = $entityManager->createQueryBuilder();
         
         $queryBuilder->select('c')->from(Computer::class, 'c');
-        if ($hostname) $queryBuilder->andWhere('c.hostname = :hostname')->setParameter('hostname', $hostname);
-        if ($macAddress) $queryBuilder->andWhere('c.macAddress = :macAddress')->setParameter('macAddress', $macAddress);
-        if ($serialNumber) $queryBuilder->andWhere('c.serialNumber = :serialNumber')->setParameter('serialNumber', $serialNumber);
+        if ($hostname) $queryBuilder->andWhere('c.hostname like :hostname')->setParameter('hostname', $hostname);
+        if ($macAddress) $queryBuilder->andWhere('c.macAddress like :macAddress')->setParameter('macAddress', $macAddress);
+        if ($serialNumber) $queryBuilder->andWhere('c.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
 
         $computers = $queryBuilder->getQuery()->getArrayResult();
         return new JsonResponse(array('computers' => $computers));
