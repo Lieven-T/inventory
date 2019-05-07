@@ -16,7 +16,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres;"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
@@ -73,7 +73,7 @@ class MainController extends AbstractController
         $request = Request::createFromGlobals();
         $hostname = $request->request->get('hostName');
         $macAddress = $request->request->get('macAddress');
-        $macAddress = $request->request->get('wifiMacAddress');
+        $wifiMacAddress = $request->request->get('wifiMacAddress');
         $model = $request->request->get('model');
         $serialNumber = $request->request->get('serialNumber');
         $mediaType = $request->request->get('mediaType');
