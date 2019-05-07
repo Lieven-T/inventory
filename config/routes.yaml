@@ -8,6 +8,11 @@ delete:
     controller: App\Controller\MainController::delete
     methods: [POST]
 
+update:
+    path: /update
+    controller: App\Controller\MainController::update
+    methods: [POST]
+
 csv:
     path: /csv
     controller: App\Controller\MainController::csv

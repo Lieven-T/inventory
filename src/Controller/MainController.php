@@ -16,13 +16,14 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres;"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
             $fileContent .= '"' . $computer->getHostName() . '";"';
             $fileContent .= $computer->getModel() . '";"';
             $fileContent .= $computer->getMacAddress() . '";"';
+            $fileContent .= $computer->getWifiMacAddress() . '";"';
             $fileContent .= $computer->getSerialNumber() . '";"';
             $fileContent .= $computer->getProcessor() . '";"';
             $fileContent .= $computer->getRamSize() . '";"';
@@ -59,9 +60,9 @@ class MainController extends AbstractController
         $queryBuilder = $entityManager->createQueryBuilder();
         
         $queryBuilder->select('c')->from(Computer::class, 'c');
-        if ($hostname) $queryBuilder->andWhere('c.hostname like :hostname')->setParameter('hostname', $hostname);
-        if ($macAddress) $queryBuilder->andWhere('c.macAddress like :macAddress')->setParameter('macAddress', $macAddress);
-        if ($serialNumber) $queryBuilder->andWhere('c.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
+        if ($hostname && strlen($hostname)) $queryBuilder->andWhere('c.hostname like :hostname')->setParameter('hostname', $hostname);
+        if ($macAddress && strlen($macAddress.length)) $queryBuilder->andWhere('c.macAddress like :macAddress')->setParameter('macAddress', $macAddress);
+        if ($serialNumber && strlen($macAddress.length)) $queryBuilder->andWhere('c.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
 
         $computers = $queryBuilder->getQuery()->getArrayResult();
         return new JsonResponse(array('computers' => $computers));
@@ -72,6 +73,7 @@ class MainController extends AbstractController
         $request = Request::createFromGlobals();
         $hostname = $request->request->get('hostName');
         $macAddress = $request->request->get('macAddress');
+        $macAddress = $request->request->get('wifiMacAddress');
         $model = $request->request->get('model');
         $serialNumber = $request->request->get('serialNumber');
         $mediaType = $request->request->get('mediaType');
@@ -103,6 +105,7 @@ class MainController extends AbstractController
 
         $currentComputer->setHostName($hostname);
         $currentComputer->setMacAddress($macAddress);
+        $currentComputer->setWifiMacAddress($wifiMacAddress);
         $currentComputer->setSerialNumber($serialNumber);
         $currentComputer->setRamSize((int)$ramSize);
         $currentComputer->setMediaType($mediaType);
@@ -111,6 +114,27 @@ class MainController extends AbstractController
         $currentComputer->setQueryDate(DateTime::createFromFormat('d/m/Y H:i:s', $queryDate));
         $currentComputer->setProcessor($processor);
 
+        $entityManager->flush();        
+
+        $response = new Response();
+        $response->setContent('<html><body><h1>OK!</h1></body></html>');
+        $response->setStatusCode(Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'text/html');
+        return $response->send();
+    }
+    
+    public function update()
+    {
+        $request = Request::createFromGlobals();
+        $id = $request->request->get('id');
+        $location = $request->request->get('location');
+        $type = $request->request->get('type');
+        
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $computer = $entityManager->getRepository(Computer::class)->find($id);
+        $computer->setLocation(strtoupper($location));
+        $computer->setType(strtoupper($type));
         $entityManager->flush();        
 
         $response = new Response();
