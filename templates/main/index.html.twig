@@ -62,9 +62,6 @@
                     },
                     deleteItem: function(item) {
                         $.post("{{ path('delete')}}", item)
-                    },
-                    updateItem: function(item) {
-                        $.post("{{ path('update')}}", item)
                     }
                 }
             });
