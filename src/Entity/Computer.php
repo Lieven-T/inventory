@@ -68,16 +68,6 @@ class Computer
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $location;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $wifiMacAddress;
 
     public function getId(): ?int
@@ -189,30 +179,6 @@ class Computer
     public function setQueryDate(\DateTimeInterface $queryDate): self
     {
         $this->queryDate = $queryDate;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): self
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
