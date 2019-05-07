@@ -1,41 +1,73 @@
 {% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+{% endblock %}
+
 {% block body %}
     <a href="{{ path('csv') }}" class="button">CSV Downloaden...</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Hostname</th>
-                <th>Model</th>
-                <th>MAC Adres</th>
-                <th>Serienummer</th>
-                <th>Processor</th>
-                <th>RAM</th>
-                <th>SSD/HDD</th>
-                <th>Opslagruimte</th>
-                <th>Datum</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for computer in computers %}
-                <tr>
-                    <td>{{ computer.hostName }}</td>
-                    <td>{{ computer.model }}</td>
-                    <td>{{ computer.macAddress }}</td>
-                    <td>{{ computer.serialNumber }}</td>
-                    <td>{{ computer.processor }}</td>
-                    <td>{{ computer.ramSize }}</td>
-                    <td>{{ computer.mediaType }}</td>
-                    <td>{{ computer.diskSize }}</td>
-                    <td>{{ computer.queryDate|date('d/m/Y H:i:s') }}</td>
-                    <td><a onclick="if (confirm('Wilt u deze computer verwijderen?')) { document.getElementById('deleteId').value={{ computer.id }}; document.getElementById('deleteForm').submit() } else return false" href="#" class="icon-bin"></a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div id="jsGrid"></div>
     
     <form style="display: none" action="{{ path('delete') }}" method="POST" id="deleteForm">
         <input name="id" type="hidden" id="deleteId" value="">
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <script>
+        $.when($.get("{{ path('query') }}")).then(function(ajaxData) {
+            $("#jsGrid").jsGrid({
+                autoload: true,
+                width: "100%",
+                editing: true,
+                sorting: true,
+                filtering: true,
+                paging: false,
+                fields: [
+                    { name: "hostname", title: "Hostname", width: "auto", type: "text", editing: false },
+                    { name: "model", title: "Model", width: "auto", type: "text", editing: false },
+                    { name: "macAddress", title: "MAC Adres", width: "auto", type: "text", editing: false },
+                    { name: "wifiMacAddress", title: "Wifi MAC Adres", width: "auto", type: "text", editing: false },
+                    { name: "serialNumber", title: "Serienummer", width: "auto", type: "text", editing: false },
+                    { name: "processor", title: "Processor", width: "auto", type: "text", editing: false },
+                    { name: "ramSize", title: "RAM", width: 100, type: "number", editing: false },
+                    { name: "mediaType", title: "SSD/HDD", width: 100, type: "text", editing: false },
+                    { name: "diskSize", title: "Grootte", width: 100, type: "number", editing: false },
+                    { name: "location", title: "Lokaal", width: 100, type: "text", editing: true },
+                    { name: "type", title: "Type", width: 100, type: "text", editing: true },
+                    { name: "queryDate.date", title: "Inventarisdatum", width: "auto", type: "date", editing: false },
+                    { type: "control" }
+                ],
+                controller: {
+                    data: ajaxData.computers,
+                    loadData: function(filter) {
+                        return $.grep(this.data, function (item) {
+                            return (!filter.hostname || item.hostname.toLowerCase().indexOf(filter.hostname.toLowerCase()) >= 0)
+                                && (!filter.model || item.model.toLowerCase().indexOf(filter.model.toLowerCase()) >= 0)
+                                && (!filter.wifiMacAddress || item.wifiMacAddress.toLowerCase().indexOf(filter.wifiMacAddress.toLowerCase()) >= 0)
+                                && (!filter.macAddress || item.macAddress.toLowerCase().indexOf(filter.macAddress.toLowerCase()) >= 0)
+                                && (!filter.serialNumber || item.serialNumber.toLowerCase().indexOf(filter.serialNumber.toLowerCase()) >= 0)
+                                && (!filter.processor || item.processor.toLowerCase().indexOf(filter.processor.toLowerCase()) >= 0)
+                                && (!filter.ramSize || item.ramSize == filter.ramSize)
+                                && (!filter.mediaType || item.mediaType.toLowerCase().indexOf(filter.processor.toLowerCase()) >= 0)
+                                && (!filter.diskSize || item.diskSize == filter.diskSize)
+                                && (!filter.location || item.location == filter.location)
+                                && (!filter.type || item.type == filter.type);
+                        });
+                    },
+                    deleteItem: function(item) {
+                        $.post("{{ path('delete')}}", item)
+                    },
+                    updateItem: function(item) {
+                        $.post("{{ path('update')}}", item)
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

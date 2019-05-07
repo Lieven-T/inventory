@@ -123,27 +123,6 @@ class MainController extends AbstractController
         return $response->send();
     }
     
-    public function update()
-    {
-        $request = Request::createFromGlobals();
-        $id = $request->request->get('id');
-        $location = $request->request->get('location');
-        $type = $request->request->get('type');
-        
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $computer = $entityManager->getRepository(Computer::class)->find($id);
-        $computer->setLocation(strtoupper($location));
-        $computer->setType(strtoupper($type));
-        $entityManager->flush();        
-
-        $response = new Response();
-        $response->setContent('<html><body><h1>OK!</h1></body></html>');
-        $response->setStatusCode(Response::HTTP_OK);
-        $response->headers->set('Content-Type', 'text/html');
-        return $response->send();
-    }
-    
     public function delete()
     {
         $request = Request::createFromGlobals();
