@@ -16,7 +16,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Datum"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"OS Versie";"Installatiedatum";"Registratiedatum"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
@@ -29,6 +29,8 @@ class MainController extends AbstractController
             $fileContent .= $computer->getRamSize() . '";"';
             $fileContent .= $computer->getMediaType() . '";"';
             $fileContent .= $computer->getDiskSize() . '";"';
+            $fileContent .= $computer->getOsVersion() . '";"';
+            $fileContent .= $computer->getInstallDate() ? $computer->getInstallDate()->format('d/m/Y H:i:s') . '";"' : '";"';
             $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '"';
             $fileContent .= "\n";
         }
@@ -81,6 +83,8 @@ class MainController extends AbstractController
         $ramSize = $request->request->get('ramSize');
         $processor = $request->request->get('processor');
         $queryDate = $request->request->get('queryDate');
+        $installDate = $request->request->get('installDate');
+        $osVersion = $request->request->get('osVersion');
         
         $repository = $this->getDoctrine()->getRepository(Computer::class);
         $entityManager = $this->getDoctrine()->getManager();
@@ -112,7 +116,9 @@ class MainController extends AbstractController
         $currentComputer->setDiskSize((int)$diskSize);
         $currentComputer->setModel($model);
         $currentComputer->setQueryDate(DateTime::createFromFormat('d/m/Y H:i:s', $queryDate));
+        $currentComputer->setInstallDate(DateTime::createFromFormat('d/m/Y H:i:s', $installDate));
         $currentComputer->setProcessor($processor);
+        $currentComputer->setOsVersion($osVersion);
 
         $entityManager->flush();        
 

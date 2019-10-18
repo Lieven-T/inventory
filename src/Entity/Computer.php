@@ -70,6 +70,16 @@ class Computer
      */
     private $wifiMacAddress;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $osVersion;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $installDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -191,6 +201,30 @@ class Computer
     public function setWifiMacAddress(?string $wifiMacAddress): self
     {
         $this->wifiMacAddress = $wifiMacAddress;
+
+        return $this;
+    }
+
+    public function getOsVersion(): ?string
+    {
+        return $this->osVersion;
+    }
+
+    public function setOsVersion(?string $osVersion): self
+    {
+        $this->osVersion = $osVersion;
+
+        return $this;
+    }
+
+    public function getInstallDate(): ?\DateTimeInterface
+    {
+        return $this->installDate;
+    }
+
+    public function setInstallDate(?\DateTimeInterface $installDate): self
+    {
+        $this->installDate = $installDate;
 
         return $this;
     }

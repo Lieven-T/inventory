@@ -21,7 +21,9 @@
                 <th>RAM</th>
                 <th>SSD/HDD</th>
                 <th>Opslagruimte</th>
-                <th>Datum</th>
+                <th>OS Versie</th>
+                <th>Installatiedatum</th>
+                <th>Registratiedatum</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -37,6 +39,8 @@
                     <td>{{ computer.ramSize }}</td>
                     <td>{{ computer.mediaType }}</td>
                     <td>{{ computer.diskSize }}</td>
+                    <td>{{ computer.osVersion }}</td>
+                    <td>{{ computer.installDate ? computer.installDate|date('d/m/Y H:i:s') }}</td>
                     <td>{{ computer.queryDate|date('d/m/Y H:i:s') }}</td>
                     <td><a onclick="if (confirm('Wilt u deze computer verwijderen?')) { document.getElementById('deleteId').value={{ computer.id }}; document.getElementById('deleteForm').submit() } else return false" href="#" class="icon-bin"></a></td>
                 </tr>
