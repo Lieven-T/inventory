@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\Ldap\Ldap;
 use \DateTime;
 
 class MainController extends AbstractController
@@ -145,14 +144,6 @@ class MainController extends AbstractController
     
     public function index()
     {
-        $ldap = Ldap::create('ext_ldap', [
-            'host' => 'orc-dc1',
-            'encryption' => 'ssl',
-        ]);
-        $ldap->bind($dn, $password);
-        $query = $ldap->query('dc=symfony,dc=com', '(&(objectclass=person)(ou=Maintainers))');
-        $results = $query->execute()->toArray();
-        
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         return $this->render('main/index.html.twig', ['computers' => $computers]);
     }
