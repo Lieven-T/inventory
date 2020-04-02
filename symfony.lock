@@ -74,11 +74,11 @@
     "egulias/email-validator": {
         "version": "2.1.5"
     },
-    "fig/link-util": {
-        "version": "1.0.0"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.2"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -88,6 +88,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "php": {
+        "version": "7.3"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -102,6 +105,9 @@
         "version": "1.0.1"
     },
     "psr/container": {
+        "version": "1.0.0"
+    },
+    "psr/event-dispatcher": {
         "version": "1.0.0"
     },
     "psr/link": {
@@ -158,9 +164,6 @@
     "symfony/css-selector": {
         "version": "v4.1.4"
     },
-    "symfony/debug": {
-        "version": "v4.1.4"
-    },
     "symfony/debug-bundle": {
         "version": "4.1",
         "recipe": {
@@ -184,6 +187,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.1.4"
+    },
+    "symfony/error-handler": {
+        "version": "v5.0.7"
     },
     "symfony/event-dispatcher": {
         "version": "v4.1.4"

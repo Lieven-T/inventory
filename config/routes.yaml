@@ -22,3 +22,7 @@ query:
     path: /query
     controller: App\Controller\MainController::query
     methods: [GET]
+
+logout:
+    path: /logout
+    methods: GET
