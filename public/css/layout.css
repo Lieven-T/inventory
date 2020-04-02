@@ -45,3 +45,18 @@ html {
 .dynatable-sort-header {
     text-decoration: none;
 }
+
+.input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    display: block;
+    padding: 5px;
+    margin: 5px 0;
+    width: 250px;
+}
+
+.title {
+    color: #333;
+    margin: 0 0 10px;
+    display: block;
+}

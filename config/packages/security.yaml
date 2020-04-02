@@ -12,7 +12,7 @@ security:
 #            id: App\Security\UserProvider
             memory:
                 users:
-                    troli.admin: { password: "$argon2id$v=19$m=65536,t=4,p=1$Yk9IVGN4SG93ZEdGanNLTQ$nYW08nLzsW8BRb/CHXht40bsGgdHd3GIAgYCNeXaX70", roles: ['ROLE_ADMIN'] }
+                    admin: { password: "$argon2id$v=19$m=65536,t=4,p=1$Yk9IVGN4SG93ZEdGanNLTQ$nYW08nLzsW8BRb/CHXht40bsGgdHd3GIAgYCNeXaX70", roles: ['ROLE_ADMIN'] }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
