@@ -19,7 +19,8 @@
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="input" required autofocus>
     <label for="inputPassword">Wachtwoord</label>
     <input type="password" name="password" id="inputPassword" class="input" required>
-
+    <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+    <label for="remember_me">Aangemeld blijven</label>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
@@ -34,9 +35,8 @@
             </label>
         </div>
     #}
-
-    <button class="button" type="submit">
-        Aanmelden
-    </button>
+    <div class="buttons">
+        <button class="button" type="submit">Aanmelden</button>
+    </div>
 </form>
 {% endblock %}

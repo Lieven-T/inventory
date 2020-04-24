@@ -19,6 +19,8 @@ security:
             security: false
         main:
             anonymous: true
+            remember_me:
+                secret: '%kernel.secret%'
             guard:
                 authenticators:
                     - App\Security\InventoryAuthenticator

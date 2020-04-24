@@ -40,6 +40,7 @@ html {
     color: #555;
     text-decoration: none;
     margin: 10px 0;   
+    cursor: pointer;
 }
 
 .dynatable-sort-header {
