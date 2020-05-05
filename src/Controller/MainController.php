@@ -101,7 +101,7 @@ class MainController extends AbstractController
             if ($computerByMacAddress && $computerByHostName) {
                 if ($computerByMacAddress->getId() != $computerByHostName->getId())
                     $entityManager->remove($computerByHostName);
-                $currentComputer = $computerByMacAddress;
+                    $currentComputer = $computerByMacAddress;
             } else {
                $currentComputer = $computerByHostName ?: $computerByMacAddress;
             }
@@ -115,7 +115,7 @@ class MainController extends AbstractController
         $currentComputer->setMediaType($mediaType);
         $currentComputer->setDiskSize((int)$diskSize);
         $currentComputer->setModel($model);
-        $currentComputer->setQueryDate(DateTime::createFromFormat('d/m/Y H:i:s', $queryDate));
+        $currentComputer->setQueryDate(new DateTime());
         $currentComputer->setInstallDate(DateTime::createFromFormat('d/m/Y H:i:s', $installDate));
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
