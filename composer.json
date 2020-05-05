@@ -29,8 +29,7 @@
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "*",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
-        "symfony/web-server-bundle": "*"
+        "symfony/test-pack": "*"
     },
     "config": {
         "preferred-install": {
