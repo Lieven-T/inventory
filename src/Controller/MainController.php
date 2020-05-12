@@ -108,7 +108,7 @@ class MainController extends AbstractController
             }
         }
         
-        $logger->info($hostname . " has date " . $installDate);
+        $logger->error($hostname . " has date " . $installDate);
 
         $currentComputer->setHostName($hostname);
         $currentComputer->setMacAddress($macAddress);
