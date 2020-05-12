@@ -96,14 +96,17 @@ class MainController extends AbstractController
 
         if(!($computerByMacAddress || $computerByHostName))
         {
+            // None exist, create new computer
             $currentComputer = new Computer();
             $entityManager->persist($currentComputer);
         } else {
-            if ($computerByMacAddress && $computerByHostName) {
-                if ($computerByMacAddress->getId() != $computerByHostName->getId())
-                    $entityManager->remove($computerByHostName);
-                    $currentComputer = $computerByMacAddress;
+            // Both exist
+            if ($computerByMacAddress && $computerByHostName && $computerByMacAddress->getMacAddress()) {
+                // If a computer with the known MAC-address appears with a different hostname, assume it's removed
+                if ($computerByMacAddress->getId() != $computerByHostName->getId()) $entityManager->remove($computerByHostName);
+                $currentComputer = $computerByMacAddress;
             } else {
+               // If only one of two is found, use that one
                $currentComputer = $computerByHostName ?: $computerByMacAddress;
             }
         }
