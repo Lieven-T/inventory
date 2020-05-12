@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use \DateTime;
+use Psr\Log\LoggerInterface;
 
 class MainController extends AbstractController
 {
@@ -70,7 +71,7 @@ class MainController extends AbstractController
         return new JsonResponse(array('computers' => $computers));
     }
     
-    public function register()
+    public function register(LoggerInterface $logger)
     {
         $request = Request::createFromGlobals();
         $hostname = $request->request->get('hostName');
@@ -106,6 +107,8 @@ class MainController extends AbstractController
                $currentComputer = $computerByHostName ?: $computerByMacAddress;
             }
         }
+        
+        $logger->info($hostname . " has date " . $installDate);
 
         $currentComputer->setHostName($hostname);
         $currentComputer->setMacAddress($macAddress);
@@ -119,7 +122,7 @@ class MainController extends AbstractController
         $currentComputer->setInstallDate(DateTime::createFromFormat('d/m/Y H:i:s', $installDate));
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
-
+        
         $entityManager->flush();        
 
         $response = new Response();
@@ -142,7 +145,7 @@ class MainController extends AbstractController
         return $this->redirectToRoute('index');
     }
     
-    public function index()
+    public function index(LoggerInterface $logger)
     {
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         return $this->render('main/index.html.twig', ['computers' => $computers]);
