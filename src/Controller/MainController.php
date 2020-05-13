@@ -127,10 +127,9 @@ class MainController extends AbstractController
         $currentComputer->setQueryDate(new DateTime());
         $installDate = DateTime::createFromFormat('d/m/Y H:i:s', $installDateStr);
         if ($installDate) {
-            $currentComputer->setInstallDate($installDate);
+            $currentComputer->setInstallDate($installDateStr);
         } else {
             $logger->error($hostname . " has invalid date " . $installDate);
-            $logger->error(DateTime::getLastErrors());
         }
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
