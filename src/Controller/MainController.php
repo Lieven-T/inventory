@@ -83,14 +83,19 @@ class MainController extends AbstractController
         $diskSize = $request->request->get('diskSize');
         $ramSize = $request->request->get('ramSize');
         $processor = $request->request->get('processor');
-        $queryDate = $request->request->get('queryDate');
-        $installDate = $request->request->get('installDate');
+        $installDateStr = $request->request->get('installDate');
         $osVersion = $request->request->get('osVersion');
         
         $repository = $this->getDoctrine()->getRepository(Computer::class);
         $entityManager = $this->getDoctrine()->getManager();
 
-        $computerByMacAddress = $repository->findOneBy(['macAddress' => $macAddress]);
+        $computerByMacAddress = null;
+        if ($macAddress) {
+            $repository->findOneBy(['macAddress' => $macAddress]);
+        } elseif ($wifiMacAddress) {
+            $repository->findOneBy(['wifiMacAddress' => $wifiMacAddress]);
+        }
+
         $computerByHostName = $repository->findOneBy(['hostname' => $hostname]);
         $currentComputer = null;    
 
@@ -101,7 +106,7 @@ class MainController extends AbstractController
             $entityManager->persist($currentComputer);
         } else {
             // Both exist
-            if ($computerByMacAddress && $computerByHostName && $computerByMacAddress->getMacAddress()) {
+            if ($computerByMacAddress && $computerByHostName) {
                 // If a computer with the known MAC-address appears with a different hostname, assume it's removed
                 if ($computerByMacAddress->getId() != $computerByHostName->getId()) $entityManager->remove($computerByHostName);
                 $currentComputer = $computerByMacAddress;
@@ -111,8 +116,6 @@ class MainController extends AbstractController
             }
         }
         
-        $logger->error($hostname . " has date " . $installDate);
-
         $currentComputer->setHostName($hostname);
         $currentComputer->setMacAddress($macAddress);
         $currentComputer->setWifiMacAddress($wifiMacAddress);
@@ -122,7 +125,13 @@ class MainController extends AbstractController
         $currentComputer->setDiskSize((int)$diskSize);
         $currentComputer->setModel($model);
         $currentComputer->setQueryDate(new DateTime());
-        $currentComputer->setInstallDate(DateTime::createFromFormat('d/m/Y H:i:s', $installDate));
+        $installDate = DateTime::createFromFormat('d/m/Y H:i:s', $installDateStr);
+        if ($installDate) {
+            $currentComputer->setInstallDate();
+        } else {
+            $logger->error($hostname . " has invalid date " . $installDate);
+            $logger->error(DateTime::getLastErrors());
+        }
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
         
