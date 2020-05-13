@@ -129,7 +129,7 @@ class MainController extends AbstractController
         if ($installDate) {
             $currentComputer->setInstallDate($installDateStr);
         } else {
-            $logger->error($hostname . " has invalid date " . $installDate);
+            $logger->error($hostname . " has invalid date " . $installDateStr);
         }
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
