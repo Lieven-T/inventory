@@ -125,7 +125,7 @@ class MainController extends AbstractController
         $currentComputer->setDiskSize((int)$diskSize);
         $currentComputer->setModel($model);
         $currentComputer->setQueryDate(new DateTime());
-        $installDate = DateTime::createFromFormat('YmdTHis', $installDateStr);
+        $installDate = DateTime::createFromFormat('YmdHis', $installDateStr, new DateTimeZone('Europe/Brussels'));
         if ($installDate) {
             $currentComputer->setInstallDate($installDate);
         } else {
