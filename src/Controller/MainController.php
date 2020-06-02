@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use \DateTime;
+use \DateTimeZone;
 use Psr\Log\LoggerInterface;
 
 class MainController extends AbstractController
