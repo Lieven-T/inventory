@@ -22,7 +22,8 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "symfony/dotenv": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
