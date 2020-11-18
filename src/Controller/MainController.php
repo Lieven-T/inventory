@@ -33,7 +33,8 @@ class MainController extends AbstractController
             $fileContent .= $computer->getDiskSize() . '";"';
             $fileContent .= $computer->getOsVersion() . '";"';
             $fileContent .= $computer->getInstallDate() ? $computer->getInstallDate()->format('d/m/Y H:i:s') . '";"' : '";"';
-            $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '"';
+            $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '";"';
+            $fileContent .= $computer->getErrors()->format('d/m/Y H:i:s') . '"';
             $fileContent .= "\n";
         }
 
@@ -54,24 +55,6 @@ class MainController extends AbstractController
         return $response;
     }
     
-    public function query(Request $request)
-    {
-        $hostname = $request->query->get('hostName');
-        $macAddress = $request->query->get('macAddress');
-        $serialNumber = $request->query->get('serialNumber');
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $queryBuilder = $entityManager->createQueryBuilder();
-        
-        $queryBuilder->select('c')->from(Computer::class, 'c');
-        if ($hostname && strlen($hostname)) $queryBuilder->andWhere('c.hostname like :hostname')->setParameter('hostname', $hostname);
-        if ($macAddress && strlen($macAddress.length)) $queryBuilder->andWhere('c.macAddress like :macAddress')->setParameter('macAddress', $macAddress);
-        if ($serialNumber && strlen($macAddress.length)) $queryBuilder->andWhere('c.serialNumber like :serialNumber')->setParameter('serialNumber', $serialNumber);
-
-        $computers = $queryBuilder->getQuery()->getArrayResult();
-        return new JsonResponse(array('computers' => $computers));
-    }
-    
     public function register(LoggerInterface $logger)
     {
         $request = Request::createFromGlobals();
@@ -86,6 +69,7 @@ class MainController extends AbstractController
         $processor = $request->request->get('processor');
         $installDateStr = $request->request->get('installDate');
         $osVersion = $request->request->get('osVersion');
+        $errors = $request->request->get('errors');
         
         $repository = $this->getDoctrine()->getRepository(Computer::class);
         $entityManager = $this->getDoctrine()->getManager();
@@ -120,6 +104,7 @@ class MainController extends AbstractController
         $currentComputer->setHostName($hostname);
         $currentComputer->setMacAddress($macAddress);
         $currentComputer->setWifiMacAddress($wifiMacAddress);
+        $currentComputer->setErrors($errors);
         $currentComputer->setSerialNumber($serialNumber);
         $currentComputer->setRamSize((int)$ramSize);
         $currentComputer->setMediaType($mediaType);

@@ -73,6 +73,11 @@ class Computer
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $errors;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private $osVersion;
 
     /**
@@ -201,6 +206,18 @@ class Computer
     public function setWifiMacAddress(?string $wifiMacAddress): self
     {
         $this->wifiMacAddress = $wifiMacAddress;
+
+        return $this;
+    }
+
+    public function getErrors(): ?string
+    {
+        return $this->errors;
+    }
+
+    public function setErrors(?string $errors): self
+    {
+        $this->errors = $errors;
 
         return $this;
     }
