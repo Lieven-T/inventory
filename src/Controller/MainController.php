@@ -18,7 +18,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"OS Versie";"Installatiedatum";"Registratiedatum"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"OS Versie";"Installatiedatum";"Registratiedatum";"Problemen"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
