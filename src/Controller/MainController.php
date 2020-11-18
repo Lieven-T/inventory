@@ -34,7 +34,7 @@ class MainController extends AbstractController
             $fileContent .= $computer->getOsVersion() . '";"';
             $fileContent .= $computer->getInstallDate() ? $computer->getInstallDate()->format('d/m/Y H:i:s') . '";"' : '";"';
             $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '";"';
-            $fileContent .= $computer->getErrors()->format('d/m/Y H:i:s') . '"';
+            $fileContent .= $computer->getErrors() . '"';
             $fileContent .= "\n";
         }
 
