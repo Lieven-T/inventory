@@ -46,6 +46,11 @@ class Computer
     private $diskSize;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $freeSpace;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $model;
@@ -146,6 +151,18 @@ class Computer
     public function setDiskSize(?int $diskSize): self
     {
         $this->diskSize = $diskSize;
+
+        return $this;
+    }
+
+    public function getFreeSpace(): ?int
+    {
+        return $this->freeSpace;
+    }
+
+    public function setFreeSpace(?int $freeSpace): self
+    {
+        $this->freeSpace = $freeSpace;
 
         return $this;
     }

@@ -22,6 +22,7 @@
                 <th>RAM</th>
                 <th>SSD/HDD</th>
                 <th>Opslagruimte</th>
+                <th>Vrije ruimte</th>
                 <th>OS Versie</th>
                 <th>Installatiedatum</th>
                 <th>Registratiedatum</th>
@@ -41,6 +42,7 @@
                     <td>{{ computer.ramSize }}</td>
                     <td>{{ computer.mediaType }}</td>
                     <td>{{ computer.diskSize }}</td>
+                    <td>{{ computer.freeSpace }}</td>
                     <td>{{ computer.osVersion }}</td>
                     <td>{{ computer.installDate ? computer.installDate|date('Y/m/d H:i:s') }}</td>
                     <td>{{ computer.queryDate|date('Y/m/d H:i:s') }}</td>

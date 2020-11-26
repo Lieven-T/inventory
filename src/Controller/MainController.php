@@ -18,7 +18,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"OS Versie";"Installatiedatum";"Registratiedatum";"Problemen"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Vrije ruimte";"OS Versie";"Installatiedatum";"Registratiedatum";"Problemen"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
@@ -31,6 +31,7 @@ class MainController extends AbstractController
             $fileContent .= $computer->getRamSize() . '";"';
             $fileContent .= $computer->getMediaType() . '";"';
             $fileContent .= $computer->getDiskSize() . '";"';
+            $fileContent .= $computer->getFreeSpace() . '";"';
             $fileContent .= $computer->getOsVersion() . '";"';
             $fileContent .= $computer->getInstallDate() ? $computer->getInstallDate()->format('d/m/Y H:i:s') . '";"' : '";"';
             $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '";"';
@@ -65,6 +66,7 @@ class MainController extends AbstractController
         $serialNumber = $request->request->get('serialNumber');
         $mediaType = $request->request->get('mediaType');
         $diskSize = $request->request->get('diskSize');
+        $freeSpace = $request->request->get('freeSpace');
         $ramSize = $request->request->get('ramSize');
         $processor = $request->request->get('processor');
         $installDateStr = $request->request->get('installDate');
@@ -109,6 +111,7 @@ class MainController extends AbstractController
         $currentComputer->setRamSize((int)$ramSize);
         $currentComputer->setMediaType($mediaType);
         $currentComputer->setDiskSize((int)$diskSize);
+        $currentComputer->setFreeSpace((int)$freeSpace);
         $currentComputer->setModel($model);
         $currentComputer->setQueryDate(new DateTime('now', new DateTimeZone('Europe/Brussels')));
         $installDate = DateTime::createFromFormat('YmdHis', $installDateStr, new DateTimeZone('Europe/Brussels'));
