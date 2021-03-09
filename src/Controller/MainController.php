@@ -18,7 +18,7 @@ class MainController extends AbstractController
         $filename = 'inventory.csv';
         $computers = $this->getDoctrine()->getRepository(Computer::class)->findAll();
         
-        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Vrije ruimte";"OS Versie";"Installatiedatum";"Registratiedatum";"Problemen"';
+        $fileContent = '"Hostname";"Model";"MAC Adres";"Wifi MAC Adres";"Serienummer";"Processor";"RAM";"SSD/HDD";"Opslagruimte";"Vrije ruimte";"OS Versie";"Installatiedatum";"Registratiedatum";"Problemen";"AutoPilot Hash"';
         $fileContent .= "\n";
         foreach ($computers as $computer)
         {
@@ -35,7 +35,7 @@ class MainController extends AbstractController
             $fileContent .= $computer->getOsVersion() . '";"';
             $fileContent .= $computer->getInstallDate() ? $computer->getInstallDate()->format('d/m/Y H:i:s') . '";"' : '";"';
             $fileContent .= $computer->getQueryDate()->format('d/m/Y H:i:s') . '";"';
-            $fileContent .= $computer->getErrors() . '"';
+            $fileContent .= $computer->getAutoPilotHash() . '"';
             $fileContent .= "\n";
         }
 
@@ -72,6 +72,7 @@ class MainController extends AbstractController
         $installDateStr = $request->request->get('installDate');
         $osVersion = $request->request->get('osVersion');
         $errors = $request->request->get('errors');
+        $autoPilotHash = $request->request->get('autoPilotHash');
         
         $repository = $this->getDoctrine()->getRepository(Computer::class);
         $entityManager = $this->getDoctrine()->getManager();
@@ -122,6 +123,7 @@ class MainController extends AbstractController
         }
         $currentComputer->setProcessor($processor);
         $currentComputer->setOsVersion($osVersion);
+        $currentComputer->setAutoPilotHash($autoPilotHash);
         
         $entityManager->flush();        
 

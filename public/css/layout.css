@@ -61,3 +61,11 @@ html {
     margin: 0 0 10px;
     display: block;
 }
+
+.hash {
+    display:inline-block;
+    width: 10em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

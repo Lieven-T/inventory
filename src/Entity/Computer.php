@@ -90,6 +90,11 @@ class Computer
      */
     private $installDate;
 
+    /**
+     * @ORM\Column(type="text", length=4096, nullable=true)
+     */
+    private $autoPilotHash;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -259,6 +264,18 @@ class Computer
     public function setInstallDate(?\DateTimeInterface $installDate): self
     {
         $this->installDate = $installDate;
+
+        return $this;
+    }
+
+    public function getAutoPilotHash(): ?string
+    {
+        return $this->autoPilotHash;
+    }
+
+    public function setAutoPilotHash(?string $autoPilotHash): self
+    {
+        $this->autoPilotHash = $autoPilotHash;
 
         return $this;
     }
