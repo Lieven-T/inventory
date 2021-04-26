@@ -13,6 +13,11 @@ csv:
     controller: App\Controller\MainController::csv
     methods: [GET]
 
+query:
+    path: /query
+    controller: App\Controller\MainController::query
+    methods: [GET]
+
 register:
     path: /register
     controller: App\Controller\MainController::register
